@@ -23,13 +23,20 @@ export const AppContextProvider = ({children})=>{
 
             const token = await getToken();
 
-            await axios.post('/api/chat/create', {}, {headers:{
+            const {data} = await axios.post('/api/chat/create', {}, {headers:{
                 Authorization: `Bearer ${token}`
             }})
 
-            fetchUsersChats();
+            if(data.success){
+                await fetchUsersChats();
+                return data.data;
+            }else{
+                toast.error(data.message);
+                return null;
+            }
         } catch (error) {
             toast.error(error.message)
+            return null;
         }
     }
 

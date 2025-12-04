@@ -8,7 +8,7 @@ import toast from 'react-hot-toast';
 const PromptBox = ({setIsLoading, isLoading}) => {
 
     const [prompt, setPrompt] = useState('');
-    const {user, chats, setChats, selectedChat, setSelectedChat} = useAppContext();
+    const {user, chats, setChats, selectedChat, setSelectedChat, createNewChat} = useAppContext();
 
     const handleKeyDown = (e)=>{
         if(e.key === "Enter" && !e.shiftKey){
@@ -24,6 +24,19 @@ const PromptBox = ({setIsLoading, isLoading}) => {
             e.preventDefault();
             if(!user) return toast.error('Login to send message');
             if(isLoading) return toast.error('Wait for the previous prompt response');
+            
+            // Auto-create chat if no chat selected
+            if(!selectedChat){
+                toast.loading('Creating new chat...');
+                await createNewChat();
+                // Wait a bit for the chat to be created and selected
+                await new Promise(resolve => setTimeout(resolve, 1500));
+                toast.dismiss();
+                if(!selectedChat) {
+                    toast.error('Failed to create chat. Please try again.');
+                    return;
+                }
+            }
 
             setIsLoading(true)
             setPrompt("")
@@ -98,33 +111,45 @@ const PromptBox = ({setIsLoading, isLoading}) => {
 
   return (
     <form onSubmit={sendPrompt}
-     className={`w-full ${selectedChat?.messages.length > 0 ? "max-w-3xl" : "max-w-2xl"} bg-[#404045] p-4 rounded-3xl mt-4 transition-all`}>
+     className={`relative w-full ${selectedChat?.messages.length > 0 ? "max-w-3xl" : "max-w-2xl"} glass-morphism-strong p-5 rounded-3xl mt-4 transition-all duration-300 focus-glow z-10 shadow-2xl`}>
+        {/* Gradient Border Effect */}
+        <div className="absolute inset-0 rounded-3xl bg-gradient-to-r from-blue-500/20 via-purple-500/20 to-blue-500/20 blur-xl -z-10"></div>
+        
         <textarea
         onKeyDown={handleKeyDown}
-        className='outline-none w-full resize-none overflow-hidden break-words bg-transparent'
+        className='outline-none w-full resize-none overflow-hidden break-words bg-transparent text-white placeholder:text-gray-400 text-base leading-relaxed'
         rows={2}
-        placeholder='Message DeepSeek' required 
-        onChange={(e)=> setPrompt(e.target.value)} value={prompt}/>
+        placeholder='✨ JOM BERBUAL - Tanya apa sahaja...' 
+        required 
+        onChange={(e)=> setPrompt(e.target.value)} 
+        value={prompt}/>
 
-        <div className='flex items-center justify-between text-sm'>
+        <div className='flex items-center justify-between text-sm mt-3'>
             <div className='flex items-center gap-2'>
-                <p className='flex items-center gap-2 text-xs border border-gray-300/40 px-2 py-1 rounded-full cursor-pointer hover:bg-gray-500/20 transition'>
-                    <Image className='h-5' src={assets.deepthink_icon} alt=''/>
-                    DeepThink (R1)
-                </p>
-                <p className='flex items-center gap-2 text-xs border border-gray-300/40 px-2 py-1 rounded-full cursor-pointer hover:bg-gray-500/20 transition'>
-                    <Image className='h-5' src={assets.search_icon} alt=''/>
-                    Search
-                </p>
+                {/* Optional: Add file upload or other features here */}
             </div>
 
-            <div className='flex items-center gap-2'>
-            <Image className='w-4 cursor-pointer' src={assets.pin_icon} alt=''/>
-            <button className={`${prompt ? "bg-primary" : "bg-[#71717a]"} rounded-full p-2 cursor-pointer`}>
-                <Image className='w-3.5 aspect-square' src={prompt ? assets.arrow_icon : assets.arrow_icon_dull} alt=''/>
-            </button>
+            <div className='flex items-center gap-3'>
+                <div className='glass-morphism p-2 rounded-xl hover-lift cursor-pointer glow-effect-hover transition-all duration-300'>
+                    <Image className='w-4' src={assets.pin_icon} alt='Pin'/>
+                </div>
+                <button 
+                    type='submit'
+                    disabled={!prompt || isLoading}
+                    className={`${prompt && !isLoading ? "btn-gradient" : "bg-gray-600/50"} rounded-full p-3 cursor-pointer transition-all duration-300 hover:scale-110 disabled:cursor-not-allowed disabled:hover:scale-100 shadow-lg`}>
+                    <Image className='w-4 aspect-square' src={prompt && !isLoading ? assets.arrow_icon : assets.arrow_icon_dull} alt='Send'/>
+                </button>
             </div>
         </div>
+        
+        {/* Character count or status indicator */}
+        {prompt && (
+            <div className='mt-2 text-xs text-gray-400 fade-in'>
+                <span className='glass-morphism px-2 py-1 rounded-lg'>
+                    {prompt.length} aksara
+                </span>
+            </div>
+        )}
     </form>
   )
 }

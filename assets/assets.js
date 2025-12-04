@@ -19,7 +19,6 @@ import regenerate_icon from "./regenerate_icon.svg";
 import sidebar_icon from "./sidebar_icon.svg";
 import sidebar_close_icon from "./sidebar_close_icon.svg";
 import chat_icon_dull from "./chat_icon_dull.svg";
-import qrcode from "./qrcode.png";
 import three_dots from "./three_dots.svg";
 import new_icon from "./new_icon.svg";
 
@@ -45,7 +44,6 @@ export const assets = {
   sidebar_icon,
   sidebar_close_icon,
   chat_icon_dull,
-  qrcode,
   three_dots,
   new_icon,
 };

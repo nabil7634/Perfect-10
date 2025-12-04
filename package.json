@@ -11,7 +11,7 @@
   "dependencies": {
     "@clerk/nextjs": "^6.12.4",
     "axios": "^1.8.3",
-    "mongoose": "^8.12.1",
+    "mongoose": "^8.20.1",
     "next": "15.2.1",
     "openai": "^4.87.3",
     "prismjs": "^1.30.0",
@@ -26,6 +26,7 @@
     "@tailwindcss/postcss": "^4",
     "eslint": "^9",
     "eslint-config-next": "15.2.1",
+    "mongodb-memory-server": "^10.4.0",
     "tailwindcss": "^4"
   }
 }

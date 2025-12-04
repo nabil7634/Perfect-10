@@ -11,8 +11,8 @@ const inter = Inter({
 });
 
 export const metadata = {
-  title: "DeepSeek - GreatStack",
-  description: "Full Stack Project",
+  title: "PERFECT - 10",
+  description: "DIKUASAKAN OLEH 10 CREATIVE SOLUTION SND.BHD",
 };
 
 export default function RootLayout({ children }) {
