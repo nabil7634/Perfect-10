@@ -98,28 +98,54 @@ export async function POST(req){
         }
 
         // Call Blackbox AI API
-        const response = await axios.post('https://api.blackbox.ai/v1/chat/completions', {
+        const response = await axios.post('https://api.blackbox.ai/api/chat', {
             messages: [
                 {
                     role: "user",
                     content: prompt
                 }
             ],
-            model: "blackboxai",
-            max_tokens: 1024,
-            temperature: 0.7
+            previewToken: null,
+            userId: null,
+            codeModelMode: true,
+            agentMode: {},
+            trendingAgentMode: {},
+            isMicMode: false,
+            userSystemPrompt: null,
+            maxTokens: 1024,
+            playgroundTopP: 0.9,
+            playgroundTemperature: 0.5,
+            isChromeExt: false,
+            githubToken: null,
+            clickedAnswer2: false,
+            clickedAnswer3: false,
+            clickedForceWebSearch: false,
+            visitFromDelta: false,
+            mobileClient: false
         }, {
             headers: {
-                'Authorization': `Bearer ${process.env.BLACKBOX_API_KEY}`,
                 'Content-Type': 'application/json'
             }
         });
 
         console.log("✅ Blackbox AI API response received");
+        console.log("Response data:", response.data);
+
+        // Extract the response text
+        let responseText = '';
+        if (typeof response.data === 'string') {
+            responseText = response.data;
+        } else if (response.data.response) {
+            responseText = response.data.response;
+        } else if (response.data.choices && response.data.choices[0]) {
+            responseText = response.data.choices[0].message.content;
+        } else {
+            responseText = JSON.stringify(response.data);
+        }
 
         const message = {
             role: "assistant",
-            content: response.data.choices[0].message.content,
+            content: responseText,
             timestamp: Date.now()
         };
         
