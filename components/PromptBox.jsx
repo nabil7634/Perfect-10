@@ -22,52 +22,80 @@ const PromptBox = ({setIsLoading, isLoading}) => {
 
         try {
             e.preventDefault();
-            if(!user) return toast.error('Login to send message');
-            if(isLoading) return toast.error('Wait for the previous prompt response');
+            console.log("📤 Sending prompt...");
+            
+            if(!user) {
+                console.error("❌ User not logged in");
+                return toast.error('Sila Log Masuk Untuk Bersembang');
+            }
+            
+            if(isLoading) {
+                console.warn("⚠️ Already loading");
+                return toast.error('Tunggu respons sembang sebelumnya');
+            }
             
             // Auto-create chat if no chat selected
             if(!selectedChat){
-                toast.loading('Creating new chat...');
-                await createNewChat();
+                console.log("🆕 No chat selected, creating new chat...");
+                toast.loading('Sedang membuat komunikasi baru...');
+                const newChat = await createNewChat();
                 // Wait a bit for the chat to be created and selected
                 await new Promise(resolve => setTimeout(resolve, 1500));
                 toast.dismiss();
-                if(!selectedChat) {
-                    toast.error('Failed to create chat. Please try again.');
+                
+                if(!selectedChat && !newChat) {
+                    console.error("❌ Failed to create chat");
+                    toast.error('Gagal mencipta komunikasi, sila cuba semula.');
                     return;
                 }
             }
 
-            setIsLoading(true)
-            setPrompt("")
+            console.log("✅ Chat selected:", selectedChat?._id);
+            setIsLoading(true);
+            setPrompt("");
 
             const userPrompt = {
                 role: "user",
-                content: prompt,
+                content: promptCopy,
                 timestamp: Date.now(),
             }
 
-            // saving user prompt in chats array
+            console.log("💾 Saving user prompt to state...");
 
+            // saving user prompt in chats array
             setChats((prevChats)=> prevChats.map((chat)=> chat._id === selectedChat._id ?
              {
                 ...chat,
                 messages: [...chat.messages, userPrompt]
             }: chat
         ))
+        
         // saving user prompt in selected chat
-
         setSelectedChat((prev)=> ({
             ...prev,
             messages: [...prev.messages, userPrompt]
         }))
 
-        const {data} = await axios.post('/api/chat/ai', {
+        console.log("🚀 Calling AI API...");
+        console.log("Chat ID:", selectedChat._id);
+        console.log("Prompt:", promptCopy.substring(0, 50) + "...");
+
+        const response = await axios.post('/api/chat/ai', {
             chatId: selectedChat._id,
-            prompt
-        })
+            prompt: promptCopy
+        }).catch(error => {
+            console.error("❌ Axios error:", error);
+            console.error("❌ Response data:", error.response?.data);
+            console.error("❌ Response status:", error.response?.status);
+            throw error;
+        });
+
+        const data = response.data;
+        console.log("📥 API Response:", data);
 
         if(data.success){
+            console.log("✅ AI response received successfully");
+            
             setChats((prevChats)=>prevChats.map((chat)=>chat._id === selectedChat._id ? {...chat, messages: [...chat.messages, data.data]} : chat))
 
             const message = data.data.content;
@@ -83,6 +111,7 @@ const PromptBox = ({setIsLoading, isLoading}) => {
                 messages: [...prev.messages, assistantMessage],
             }))
 
+            console.log("✨ Animating response...");
             for (let i = 0; i < messageTokens.length; i++) {
                setTimeout(()=>{
                 assistantMessage.content = messageTokens.slice(0, i + 1).join(" ");
@@ -97,15 +126,21 @@ const PromptBox = ({setIsLoading, isLoading}) => {
                 
             }
         }else{
-            toast.error(data.message);
+            console.error("❌ API returned error:", data.message);
+            toast.error(data.message || "Ralat berlaku, sila cuba lagi");
             setPrompt(promptCopy);
         }
 
         } catch (error) {
-            toast.error(error.message);
+            console.error("❌ Error in sendPrompt:", error);
+            console.error("Error details:", error.response?.data || error.message);
+            
+            const errorMessage = error.response?.data?.message || error.message || "Ralat berlaku, sila cuba lagi";
+            toast.error(errorMessage);
             setPrompt(promptCopy);
         } finally {
             setIsLoading(false);
+            console.log("🏁 Request completed");
         }
     }
 

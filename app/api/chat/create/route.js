@@ -1,17 +1,20 @@
 import connectDB from "@/config/db";
 import Chat from "@/models/Chat";
-import { getAuth } from "@clerk/nextjs/server";
+import { auth } from "@clerk/nextjs/server";
 import { NextResponse } from "next/server";
 
 export async function POST(req){
     try {
-        const { userId } = getAuth(req)
+        const { userId } = await auth();
 
         if(!userId){
-            return NextResponse.json({success: false, message: "User not authenticated",})
+            return NextResponse.json({
+                success: false, 
+                message: "User not authenticated"
+            }, { status: 401 })
         }
+        
         // Prepare the chat data to be saved in the database
-
         const chatData = {
             userId,
             messages: [],
@@ -20,11 +23,19 @@ export async function POST(req){
 
         // Connect to the database and create a new chat
         await connectDB();
-        await Chat.create(chatData);
+        const newChat = await Chat.create(chatData);
 
-        return NextResponse.json({ success: true, message: "Chat created" })
+        return NextResponse.json({ 
+            success: true, 
+            message: "Chat created",
+            data: newChat
+        })
 
     } catch (error) {
-        return NextResponse.json({ success: false, error: error.message });
+        console.error("Error creating chat:", error);
+        return NextResponse.json({ 
+            success: false, 
+            message: error.message 
+        }, { status: 500 });
     }
 }
