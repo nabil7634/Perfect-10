@@ -357,13 +357,44 @@ html {
   transform: scale(1.05);
 }
 
-/* 🌈 Sidebar Gradient Overlay */
+/* 🌈 Sidebar Gradient Overlay - Batik Theme */
 .sidebar-gradient {
   background: linear-gradient(
     180deg,
     rgba(33, 35, 39, 0.95) 0%,
     rgba(26, 27, 30, 0.98) 100%
   );
+}
+
+.sidebar-batik-gradient {
+  background: linear-gradient(
+    180deg,
+    rgba(45, 21, 21, 0.98) 0%,
+    rgba(26, 10, 10, 0.95) 50%,
+    rgba(30, 8, 8, 0.98) 100%
+  );
+  box-shadow: 0 0 40px rgba(220, 38, 38, 0.3);
+}
+
+/* Custom Scrollbar untuk Sidebar Batik */
+.custom-scrollbar-batik::-webkit-scrollbar {
+  width: 6px;
+}
+
+.custom-scrollbar-batik::-webkit-scrollbar-track {
+  background: rgba(127, 29, 29, 0.2);
+  border-radius: 10px;
+}
+
+.custom-scrollbar-batik::-webkit-scrollbar-thumb {
+  background: linear-gradient(180deg, #dc2626, #06b6d4);
+  border-radius: 10px;
+  transition: all 0.3s ease;
+}
+
+.custom-scrollbar-batik::-webkit-scrollbar-thumb:hover {
+  background: linear-gradient(180deg, #06b6d4, #dc2626);
+  box-shadow: 0 0 10px rgba(220, 38, 38, 0.5);
 }
 
 /* ✨ Focus Glow - Batik Theme */
