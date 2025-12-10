@@ -157,7 +157,7 @@ export default function Home() {
                       <div className="absolute bottom-0 right-0 w-16 h-16 border-4 border-cyan-500 rounded-full"></div>
                     </div>
                     <p className="text-2xl md:text-4xl font-bold mb-2 relative z-10">
-                      <span className="text-white">🌸 Salam Sejahtera 🌸</span>
+                      <span className="text-white">💫 Salam Sejahtera 💫</span>
                     </p>
                     <p className="text-xl md:text-2xl font-medium relative z-10">
                       <span className="text-gray-300">Selamat Datang ke </span>
