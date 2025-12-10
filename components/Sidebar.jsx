@@ -47,24 +47,24 @@ const Sidebar = ({expand, setExpand}) => {
                 <Image src={assets.menu_icon} alt='Menu' className='md:hidden w-5'/>
                 <Image src={expand ? assets.sidebar_close_icon : assets.sidebar_icon} alt='Toggle' className='hidden md:block w-6'/>
                 <div className={`absolute w-max ${expand ? "left-1/2 -translate-x-1/2 top-12" : "-top-12 left-0"} opacity-0 group-hover:opacity-100 transition-all duration-300 glass-morphism-strong text-white text-xs px-3 py-2 rounded-lg shadow-xl pointer-events-none z-50 border border-red-600/30`}>
-                    {expand ? '🌺 Tutup Panel Sisi' : '🌺 Buka Panel Sisi'}
+                    {expand ? '👈🏻 Tutup Panel Sisi' : '👉🏻 Buka Panel Sisi'}
                     <div className={`w-2 h-2 absolute glass-morphism-strong rotate-45 ${expand ? "left-1/2 -top-1 -translate-x-1/2" : "left-4 -bottom-1"}`}></div>
                 </div>
             </div>
         </div>
 
         <button onClick={createNewChat} className={`mt-8 flex items-center justify-center cursor-pointer transition-all duration-300 relative z-10 ${expand ? "btn-gradient rounded-2xl gap-3 p-3 w-full shadow-lg border-2 border-red-700/30" : "group relative h-10 w-10 mx-auto glass-morphism hover:glass-morphism-strong glow-effect-hover rounded-xl border border-red-600/30"}`}>
-            <Image className={expand ? 'w-5' : 'w-6'} src={expand ? assets.chat_icon : assets.chat_icon_dull} alt='New Chat'/>
+            <Image className={expand ? 'w-5' : 'w-6'} src={expand ? assets.chat_icon : assets.chat_icon_dull} alt='Perbualan Baru'/>
             <div className='absolute w-max -top-12 -right-12 opacity-0 group-hover:opacity-100 transition-all duration-300 glass-morphism-strong text-white text-xs px-3 py-2 rounded-lg shadow-xl pointer-events-none z-50 border border-red-600/30'>
-                🌺 Perbualan Baharu
+                ➕ Perbualan Baharu
                 <div className='w-2 h-2 absolute glass-morphism-strong rotate-45 left-4 -bottom-1'></div>
             </div>
-            {expand && <p className='text-white text-sm font-semibold'>🌺 Perbualan Baharu</p>}
+            {expand && <p className='text-white text-sm font-semibold'>➕ Perbualan Baharu</p>}
         </button>
 
         <div className={`mt-8 text-white/40 text-xs ${expand ? "block space-y-2" : "hidden"} relative z-10`}>
             <div className='glass-morphism px-3 py-2 rounded-lg mb-3 border border-red-600/30 glow-effect-hover'>
-                <p className='font-bold gradient-text'>🌺 Terkini</p>
+                <p className='font-bold gradient-text'>⏳ Terkini</p>
             </div>
             <div className='space-y-1 max-h-[calc(100vh-300px)] overflow-y-auto pr-2 custom-scrollbar-batik'>
                 {chats.map((chat, index)=> <ChatLabel key={index} name={chat.name} id={chat._id} openMenu={openMenu} setOpenMenu={setOpenMenu}/>)}
@@ -88,7 +88,7 @@ const Sidebar = ({expand, setExpand}) => {
                 )
             }
             
-            {expand && <span className='font-medium gradient-text'>🌺 Profil Saya</span>}
+            {expand && <span className='font-medium gradient-text'>🪪 Profil Saya</span>}
         </div>
       </div>
 
