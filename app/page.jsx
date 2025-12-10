@@ -177,16 +177,16 @@ export default function Home() {
                 {/* Decorative Elements - Tema Batik & Teknologi */}
                 <div className="mt-12 flex justify-center gap-4 fade-in-delay-2 flex-wrap">
                   <div className="glass-morphism px-4 py-2 rounded-xl hover-lift cursor-pointer border border-red-600/30 glow-effect-hover">
-                    <p className="text-sm text-gray-300">💬 Berbual</p>
+                    <p className="text-sm text-gray-300">🗪 Berbual</p>
                   </div>
                   <div className="glass-morphism px-4 py-2 rounded-xl hover-lift cursor-pointer border border-cyan-500/30 glow-effect-hover">
-                    <p className="text-sm text-gray-300">🎯 Bantuan</p>
+                    <p className="text-sm text-gray-300">🆘 Bantuan</p>
                   </div>
                   <div className="glass-morphism px-4 py-2 rounded-xl hover-lift cursor-pointer border border-red-600/30 glow-effect-hover">
-                    <p className="text-sm text-gray-300">✨ Idea</p>
+                    <p className="text-sm text-gray-300">💡 Idea</p>
                   </div>
                   <div className="glass-morphism px-4 py-2 rounded-xl hover-lift cursor-pointer border border-cyan-500/30 glow-effect-hover">
-                    <p className="text-sm text-gray-300">🌺 Kreatif</p>
+                    <p className="text-sm text-gray-300">🪄 Kreatif</p>
                   </div>
                 </div>
               </div>
@@ -234,7 +234,7 @@ export default function Home() {
           <div className="absolute bottom-1 z-10">
             <div className="glass-morphism px-4 py-2 rounded-lg border border-red-600/20">
               <p className="text-xs text-gray-400 font-medium">
-                🌺 DIKUASAKAN OLEH <span className="gradient-text font-bold">10 CREATIVE SOLUTION SDN.BHD</span> 🚀
+                🌟 DIKUASAKAN OLEH <span className="gradient-text font-bold">10 CREATIVE SOLUTION SDN.BHD</span> 🌟
               </p>
             </div>
           </div>
